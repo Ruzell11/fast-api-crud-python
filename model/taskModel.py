@@ -1,9 +1,8 @@
-from database.db import Database
+from database.db import Base
 from sqlalchemy import Column, ForeignKey , Integer , String
 from sqlalchemy.orm import relationship
 from pydantic import BaseModel
 
-Base = Database.Base
 
 class Task(Base):
     __tablename__ = "tasks"
@@ -15,7 +14,7 @@ class Task(Base):
     """ Note RelationShip"""
     user_id = Column(Integer , ForeignKey("users.id"))
 
-    user = relationship("User" , back_populate="tasks")
+    user = relationship("UserModel" , back_populates="tasks")
 
 
 class TaskBase(BaseModel):

@@ -1,28 +1,27 @@
-from database.db import Database
+from database.db import Base
 from sqlalchemy import Column , Integer , String
 from sqlalchemy.orm import relationship
 from pydantic import BaseModel
-from taskModel import Task
+from model.taskModel import Task
 
-Base = Database.Base
 
-class User(Base):
+class UserModel(Base):
     __tablename__ = "users"
     id = Column(Integer , primary_key=True , index=True)
     email = Column(String , unique=True , index=True)
-    hashed_password = Column(String)
+    password = Column(String)
 
     """ Note RelationShip"""
-    tasks = relationship("Task" , back_populate="user") 
+    tasks = relationship("Task" , back_populates="user") 
 
 
-class UserBase(BaseModel):
+class UserBaseSchema(BaseModel):
     email:str
 
-class UserCreate(UserBase):
+class UserCreateSchema(UserBaseSchema):
     password:str
 
-class User(UserBase):
+class UserSchema(UserBaseSchema):
     id:int
     tasks: list[Task] = []
 
