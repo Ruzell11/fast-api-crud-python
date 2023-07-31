@@ -6,3 +6,4 @@ databases
 pytest
 mysqlclient
 aiomysql
+Faker

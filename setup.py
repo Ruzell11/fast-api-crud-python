@@ -9,6 +9,7 @@ setup(
         "uvicorn[standard]",
         "sqlalchemy",
         "pydantic",
-        "databases"
+        "databases",
+        "Faker"
     ],
 )
