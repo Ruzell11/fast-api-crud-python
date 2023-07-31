@@ -10,6 +10,10 @@ from constants.index import HTTP_CODE_OK, HTTP_CODE_BAD_REQUEST, HTTP_CODE_NOT_F
 async def getUserByEmail(db: Session, email: str):
     return db.query(UserModel).filter(UserModel.email == email).first()
 
+
+async def getAllUser(db:Session):
+    return db.query(UserModel).all()
+
 async def createUser(db: Session, user: UserCreateSchema):
     db_user = UserModel(email=user.email, password=user.password , first_name=user.first_name , last_name=user.last_name)
 
@@ -18,7 +22,8 @@ async def createUser(db: Session, user: UserCreateSchema):
     db.refresh(db_user)
     return {
         "message": "User created successfully",
-        "success" : True
+        "success" : True,
+        "user":db_user
     }
     
 
@@ -58,7 +63,18 @@ async def updateUserDetails(db: Session, user: UserBaseSchema):
     }
 
       
-
+async def deleteUser(db: Session , user_id):
+    user_details = db.query(UserModel).filter(UserModel.id == user_id).first()
+    if user_details is None:
+        raise HTTPException(status_code=HTTP_CODE_NOT_FOUND, detail="User not found")
+    
+    db.delete(user_details)
+    db.commit()
+    
+    return {
+        "message" : "User deleted successfully",
+        "success" : True
+    }
 
 
  

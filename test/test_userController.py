@@ -1,8 +1,8 @@
 import unittest
 import asyncio
 from sqlalchemy.orm import Session
-from model.userModel import UserCreateSchema , UserModel
-from controller.userController import createUser, getSingleUserDetails , updateUserDetails
+from model.userModel import UserCreateSchema  , UserBaseSchema
+from controller.userController import createUser, getSingleUserDetails , updateUserDetails , deleteUser , getAllUser
 from faker import Faker
 from database.db import SessionLocal
 from fastapi import HTTPException
@@ -21,9 +21,11 @@ class UserUnitTesting(unittest.TestCase):
         self.first_name = self.fake.first_name()
         self.last_name = self.fake.last_name()
         self.user = UserCreateSchema(email=self.email, password=self.password , first_name=self.first_name , last_name=self.last_name)
+        self.update_user = UserBaseSchema(email="rrr@gmail.com", first_name=f"{self.first_name}-edit", last_name=f"{self.last_name}-edit")  # hard coded for now
         self.user_id_not_exist = 1000
         self.user_id_exist = 1
 
+    
     def test_createUser(self):
         try:
             response = self.loop.run_until_complete(createUser(db=self.db_mock, user=self.user))
@@ -46,9 +48,15 @@ class UserUnitTesting(unittest.TestCase):
        with self.assertRaises(HTTPException) as cm:
            self.loop.run_until_complete(updateUserDetails(db=self.db_local , user=self.user))
     
-    # def test_updateUserDetailsExist(self):
-    #     response = self.loop.run_until_complete(updateUserDetails(db=self.db_local , user=self.user))
-       
+    def test_updateUserDetailsExist(self):
+        response = self.loop.run_until_complete(updateUserDetails(db=self.db_local , user=self.update_user))
+        
+        self.assertEqual(response["success"], True)
+        
+    def test_deleteUserNotExist(self):
+        with self.assertRaises(HTTPException) as cm:
+            self.loop.run_until_complete(deleteUser(db=self.db_local , user_id=self.user_id_not_exist))
+    
 
     if __name__ == "__main__":
         unittest.main()
