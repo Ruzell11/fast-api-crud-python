@@ -4,29 +4,27 @@ from sqlalchemy.orm import relationship
 from pydantic import BaseModel
 
 
-class Task(Base):
+class TaskModel(Base):
     __tablename__ = "tasks"
-
-    id = Column(Integer , primary_key=True , index=True)
+    id = Column(Integer, primary_key=True, index=True)
     title = Column(String)
     description = Column(String)
 
-    """ Note RelationShip"""
-    user_id = Column(Integer , ForeignKey("users.id"))
+    user_id = Column(Integer, ForeignKey("users.id"))
 
-    user = relationship("UserModel" , back_populates="tasks")
+    user = relationship("UserModel", back_populates="tasks")
 
 
-class TaskBase(BaseModel):
+class TaskBaseSchema(BaseModel):
     title: str
     description: str
 
 
-class Taskcreate(TaskBase):
+class TaskcreateSchema(TaskBaseSchema):
     pass
 
 
-class Task(TaskBase):
+class TaskSchema(TaskBaseSchema):
     id: int
     user_id: int
 

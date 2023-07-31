@@ -2,7 +2,6 @@ from database.db import Base
 from sqlalchemy import Column , Integer , String
 from sqlalchemy.orm import relationship
 from pydantic import BaseModel
-from model.taskModel import Task
 
 
 class UserModel(Base):
@@ -12,7 +11,7 @@ class UserModel(Base):
     password = Column(String)
 
     """ Note RelationShip"""
-    tasks = relationship("Task" , back_populates="user") 
+    tasks = relationship("TaskModel", back_populates="user") 
 
 
 class UserBaseSchema(BaseModel):
@@ -23,7 +22,7 @@ class UserCreateSchema(UserBaseSchema):
 
 class UserSchema(UserBaseSchema):
     id:int
-    tasks: list[Task] = []
+    tasks: list = []
 
     class Config:
         orm_mode = True

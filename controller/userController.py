@@ -1,5 +1,6 @@
 from sqlalchemy.orm import Session
-from model.userModel import UserCreateSchema , UserModel
+from model.userModel import UserModel, UserCreateSchema
+from model.taskModel import TaskModel, TaskcreateSchema
 
 async def createUser(db: Session, user: UserCreateSchema):
     db_user = UserModel(email=user.email, password=user.password)
@@ -8,5 +9,4 @@ async def createUser(db: Session, user: UserCreateSchema):
     db.refresh(db_user)
     return {
                 "message":"User created successfully",
-                "user" : db_user
-        }
+            }
