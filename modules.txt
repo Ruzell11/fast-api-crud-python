@@ -7,3 +7,5 @@ pytest
 mysqlclient
 aiomysql
 Faker
+pytest-bdd
+pytest-splinter
