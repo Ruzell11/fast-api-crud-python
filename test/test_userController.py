@@ -55,7 +55,7 @@ class UserUnitTesting(unittest.TestCase):
            self.loop.run_until_complete(updateUserDetails(db=self.db_local , user=self.user))
     
     def test_updateUserDetailsExist(self):
-            user_schema = UserBaseSchema(email="test+100@gmail.com", first_name=f"{self.first_name}-edit", last_name=f"{self.last_name}-edit")  #hard coded for now
+            user_schema = UserBaseSchema(email=self.all_users[-1].email, first_name=f"{self.first_name}-edit", last_name=f"{self.last_name}-edit") 
             response =  self.loop.run_until_complete(updateUserDetails(db=self.db_local , user=user_schema))
             self.assertEqual(response["success"], True)
       

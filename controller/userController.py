@@ -12,7 +12,9 @@ async def getUserByEmail(db: Session, email: str):
 
 
 async def getAllUser(db:Session):
-    return db.query(UserModel).all()
+    all_user = db.query(UserModel).all()
+    print(all_user[-1].email)
+    return  all_user
 
 async def createUser(db: Session, user: UserCreateSchema):
     db_user = UserModel(email=user.email, password=user.password , first_name=user.first_name , last_name=user.last_name)
