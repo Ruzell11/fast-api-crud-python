@@ -13,13 +13,14 @@ The FastAPI Backend provides the backend functionality for a Todo application. I
 - Pytest for Testing: Easy and scalable testing.
 - MySQL Database: Persistent data storage using MySQL.
 - Alembic Migrations: Smooth and automated database migrations.
+- Pytest Bdd 
 
 ## Getting Started
 
 ### Prerequisites
 
 - Python: Make sure you have Python installed on your machine.
-- MySQL: Install and set up a MySQL database server.
+- Xampp
 
 ### Installation
 
