@@ -58,7 +58,7 @@ async def updateUserDetails(db: Session, user: UserBaseSchema):
     # Return the updated user details
     return {
         "message": "User details updated successfully",
-        "user": UserSchema.from_orm(user_details).model_dump(),
+        "user": UserSchema.model_validate(user_details).model_dump(),
         "success": True,
     }
 
