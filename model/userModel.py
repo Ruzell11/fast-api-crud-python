@@ -39,6 +39,11 @@ class UserSchema(UserBaseSchema):
     tasks: list = []
 
     class Config:
-        orm_mode = True
+        from_attributes = True
     
 
+class UserSchemaLogin(BaseModel):
+    email:str
+    password:str
+    
+ 

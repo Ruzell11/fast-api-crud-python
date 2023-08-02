@@ -1,8 +1,8 @@
-from fastapi import APIRouter, Depends, HTTPException
-from model.userModel import UserCreateSchema , UserBaseSchema
+from fastapi import APIRouter, Depends, HTTPException , FastAPI
+from model.userModel import UserCreateSchema , UserBaseSchema , UserSchemaLogin
 from sqlalchemy.orm import Session
 from database.session import get_db
-from controller.userController import createUser, getSingleUserDetails, getUserByEmail , updateUserDetails , deleteUser , getAllUser
+from controller.userController import createUser, getSingleUserDetails, getUserByEmail , updateUserDetails , deleteUser , getAllUser , loginUser
 from constants.index import HTTP_CODE_BAD_REQUEST
 
 
@@ -21,7 +21,12 @@ async def register_user(user: UserCreateSchema, db: Session = Depends(get_db)):
     return await createUser(db=db, user=user)
 
 
-@router.get("/users")
+@router.post('/login-user')
+async def login_user(user:UserSchemaLogin , db:Session = Depends(get_db)):
+    return await loginUser(db=db , user=user)
+
+
+@router.get("/user")
 async def get_user(user_id: int, db: Session = Depends(get_db)):
     return await getSingleUserDetails(db=db, user_id=user_id)
 
@@ -38,3 +43,4 @@ async def update_user(user:UserBaseSchema , db:Session = Depends(get_db)):
 @router.delete("/delete-user")
 async def delete_user(user_id: int , db:Session = Depends(get_db)):
     return await deleteUser(db=db , user_id=user_id)
+
