@@ -9,3 +9,5 @@ aiomysql
 Faker
 pytest-bdd
 pytest-splinter
+pyjwt
+bcrypt
